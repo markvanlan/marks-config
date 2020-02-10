@@ -23,6 +23,15 @@ vim init.vim
 ```
 Copy (maybe adjust) from [here](https://github.com/markvanlan/marks-config/blob/master/.config/nvim/init.vim)
 
+After,
+
+```
+curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+```
+
+Then inside vim run `:PlugInstall`
+
 ### Install [xcape](https://github.com/alols/xcape)
 ```
 sudo apt-get install git gcc make pkg-config libx11-dev libxtst-dev libxi-dev
@@ -32,3 +41,11 @@ make
 sudo make install
 xcape -e 'Control_L=Escape'
 ```
+
+### Install tmux
+```
+sudo apt-get install tmux
+vim .tmux.conf
+```
+Copy (maybe adjust) from [here](https://github.com/markvanlan/marks-config/blob/master/.tmux.conf)
+
