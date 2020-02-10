@@ -49,3 +49,13 @@ vim .tmux.conf
 ```
 Copy (maybe adjust) from [here](https://github.com/markvanlan/marks-config/blob/master/.tmux.conf)
 
+### Install snapd
+```
+sudo apt update
+sudo apt install snapd
+```
+
+### Install Bitwarden
+```
+sudo snap install bitwarden
+```
