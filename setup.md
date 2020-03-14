@@ -7,6 +7,10 @@ chsh -s $(which zsh)
 ```
 
 Log out and back in.
+Install oh my zsh
+```
+sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+```
 
 ```
 vi .zshrc
