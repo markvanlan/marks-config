@@ -1,4 +1,3 @@
-
 """ PLUGGINS
 call plug#begin('~/.config/nvim/plugged')
 
@@ -13,19 +12,12 @@ Plug 'jistr/vim-nerdtree-tabs'                       " Makes NERDTree awesome if
 Plug 'scrooloose/nerdtree'                           " Project drawer
 
 """ BUFFER NAVIGATION / TEXT MANIPULATION
-Plug 'Lokaltog/vim-easymotion'                       " <leader><leader>w jump to highlighted word
 Plug 'christoomey/vim-tmux-navigator'                " Navigate with C-h/j/k/l in tmux and vim
 Plug 'godlygeek/tabular'                             " Align code
-Plug 'gorkunov/smartpairs.vim'                       " Smart selection between pairs (viv)
 Plug 'itspriddle/vim-stripper'                       " Strip trailing whitespace on save
 Plug 'justincampbell/vim-eighties'                   " Ensures windows are at least 80 chars wide (my PR added the ability to ignore a list of additional bufnames)
 Plug 'scrooloose/nerdcommenter'                      " Comment multiple lines
 Plug 'tpope/vim-endwise'                             " Auto adds end to method definitions, blocks, etc
-Plug 'tpope/vim-ragtag'                              " Some nice text wrappers for editing erb or html, ctrl+x in insert mode then type = or - or @ or #,etc
-Plug 'tpope/vim-repeat'                              " Repeat surround (and other) changes with .
-Plug 'tpope/vim-surround'                            " Easily change what something is surrounded by
-Plug 'tpope/vim-unimpaired'                          " Allows for moving blocks of text up and down in place like you could in textmate
-Plug 'vim-scripts/ZoomWin'                           " Lets you ctrl+w+o to toggle out a split to it's own buffer (easily can go back with the same command)
 Plug 'alvan/vim-closetag'                            " Automatically close an html tag when you type the opening of it
 Plug 'rstacruz/vim-closer'                           " Like auto-pairs, but more conservative, only adds the closing when you press enter
 Plug 'terryma/vim-multiple-cursors'                  " like sublime multiple cursors
@@ -33,27 +25,13 @@ Plug 'scrooloose/nerdcommenter'                      " Comment multiple lines
 
 " Initialize plugin system
 """" RUBY
-Plug 'vim-ruby/vim-ruby'
-Plug 'ecomba/vim-ruby-refactoring'                   " refactor model names
-Plug 'tpope/vim-abolish'                             " Dependency of vim-ruby-refactoring
-Plug 'nelstrom/vim-textobj-rubyblock'
-Plug 'tpope/vim-rails'
-Plug 'KurtPreston/vim-autoformat-rails'
 Plug 'thoughtbot/vim-rspec'                          " thoughtbot vim-rspec send to tmux, vim-dispatch, etc
-Plug 'onemanstartup/vim-slim'                        " Slim template syntax highlighting
-Plug 'tpope/vim-haml'                                " Enabled .haml extension
-Plug 'jondkinney/vim-cucumber'                       " Enabled .feature filesjkNAUAGE SPECIFIC
+
 """" RUBY
-Plug 'vim-ruby/vim-ruby'
-Plug 'ecomba/vim-ruby-refactoring'                   " refactor model names
-Plug 'tpope/vim-abolish'                             " Dependency of vim-ruby-refactoring
-Plug 'nelstrom/vim-textobj-rubyblock'
 Plug 'tpope/vim-rails'
-Plug 'KurtPreston/vim-autoformat-rails'
-Plug 'thoughtbot/vim-rspec'                          " thoughtbot vim-rspec send to tmux, vim-dispatch, etc
+Plug 'vim-ruby/vim-ruby'
 Plug 'onemanstartup/vim-slim'                        " Slim template syntax highlighting
 Plug 'tpope/vim-haml'                                " Enabled .haml extension
-Plug 'jondkinney/vim-cucumber'                       " Enabled .feature files
 
 """" YAML
 Plug 'avakhov/vim-yaml'                              " Yaml stuff
@@ -67,12 +45,8 @@ Plug 'gavocanov/vim-js-indent'
 Plug 'isRuslan/vim-es6'                              " es-6 help
 
 """"" FLAVORS
-Plug 'kchmck/vim-coffee-script'                      " enable coffeescript
 Plug 'leafgarland/typescript-vim'
 Plug 'glanotte/vim-jasmine'
-
-""""" REACT
-Plug 'maxmellon/vim-jsx-pretty'                      " Better than: Plug 'mxw/vim-jsx'
 
 """"" ELIXIR
 Plug 'elixir-editors/vim-elixir'
@@ -90,6 +64,9 @@ Plug 'jondkinney/rspec.vim'                          " RSpec syntax highlighting
 
 """ Ember
 Plug 'mustache/vim-mustache-handlebars'
+
+""" Git
+Plug 'tpope/vim-fugitive'
 
 call plug#end()
 
@@ -144,7 +121,6 @@ set shiftwidth=2
 
 let g:vue_disable_pre_processors = 1
 
-set -g mouse on
 set mouse+=a
 if &term =~ '^screen'
     " tmux knows the extended mouse mode
@@ -171,3 +147,8 @@ nmap <leader>T <Plug>SendFocusedTestToTmux
 
 " for rspec.vim (syntax highlighting enhancements for rspec)
 autocmd BufReadPost,BufNewFile *_spec.rb set syntax=rspec
+
+" copy (write) highlighted text to .vimbuffer
+vmap <C-c> y:new ~/.vimbuffer<CR>VGp:x<CR> \| :!cat ~/.vimbuffer \| clip.exe <CR><CR>
+" " paste from buffer
+map <C-v> :r ~/.vimbuffer<CR>
