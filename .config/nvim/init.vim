@@ -1,12 +1,11 @@
 """ PLUGGINS
 call plug#begin('~/.config/nvim/plugged')
 
-Plug 'junegunn/fzf',
-      \ { 'dir': '~/.fzf', 'do': './install --all' } " Fuzzy Find
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
 
 " Make sure you use single quotes
 """" Project Drawer
-Plug 'christoomey/vim-tmux-navigator'
 Plug 'Xuyuanp/nerdtree-git-plugin'                   " Show changed files in NERDTree
 Plug 'jistr/vim-nerdtree-tabs'                       " Makes NERDTree awesome if you use tabs
 Plug 'scrooloose/nerdtree'                           " Project drawer
@@ -16,7 +15,6 @@ Plug 'christoomey/vim-tmux-navigator'                " Navigate with C-h/j/k/l i
 Plug 'godlygeek/tabular'                             " Align code
 Plug 'itspriddle/vim-stripper'                       " Strip trailing whitespace on save
 Plug 'justincampbell/vim-eighties'                   " Ensures windows are at least 80 chars wide (my PR added the ability to ignore a list of additional bufnames)
-Plug 'scrooloose/nerdcommenter'                      " Comment multiple lines
 Plug 'tpope/vim-endwise'                             " Auto adds end to method definitions, blocks, etc
 Plug 'alvan/vim-closetag'                            " Automatically close an html tag when you type the opening of it
 Plug 'rstacruz/vim-closer'                           " Like auto-pairs, but more conservative, only adds the closing when you press enter
@@ -45,13 +43,13 @@ Plug 'gavocanov/vim-js-indent'
 Plug 'isRuslan/vim-es6'                              " es-6 help
 
 """"" FLAVORS
-Plug 'leafgarland/typescript-vim'
-Plug 'glanotte/vim-jasmine'
+" Plug 'leafgarland/typescript-vim'
+" Plug 'glanotte/vim-jasmine'
 
 """"" ELIXIR
-Plug 'elixir-editors/vim-elixir'
-Plug 'mhinz/vim-mix-format'
-Plug 'slashmili/alchemist.vim'
+" Plug 'elixir-editors/vim-elixir'
+" Plug 'mhinz/vim-mix-format'
+" Plug 'slashmili/alchemist.vim'
 
 """" VUE
 Plug 'posva/vim-vue'
@@ -67,8 +65,14 @@ Plug 'mustache/vim-mustache-handlebars'
 
 """ Git
 Plug 'tpope/vim-fugitive'
+Plug 'ellisonleao/gruvbox.nvim'
 
 call plug#end()
+
+set background = "dark"
+colorscheme gruvbox
+let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+set termguicolors
 
 let mapleader = ','
 set number
@@ -78,10 +82,11 @@ set number
 map <Leader>d :NERDTreeMirrorToggle<CR>
 " Show current file in the NERDTree hierarchy
 map <Leader>D :NERDTreeFind<CR>
+map <Leader>n :NERDTreeToggle<CR>
 
 let NERDTreeMinimalUI=1
 let NERDTreeDirArrows=1
-let NERDTreeWinSize = 51
+let NERDTreeWinSize = 40
 let NERDTreeShowLineNumbers=1
 let g:nerdtree_tabs_focus_on_files=1
 let g:nerdtree_tabs_open_on_console_startup=1
@@ -102,7 +107,9 @@ let g:ack_mappings = {
 nnoremap ,em :OpenChangedFiles<CR>
 
 """FUZZYFIND
-nnoremap <C-f> :FZF<CR>
+nnoremap <C-f> :Files<CR>
+nnoremap <C-g> :GFiles<CR>
+
 let g:fzf_action = {
   \ 'ctrl-t': 'tab split',
   \ 'ctrl-i': 'split',
@@ -134,6 +141,8 @@ set nowritebackup
 set autoread
 set autowrite
 set autowriteall
+set clipboard=unnamed
+let g:markdown_folding = 1
 
 """" vim-rspec & cucumber test runner mappings <leader>T
 let VimuxHeight = "33" "this is percentage
@@ -148,7 +157,10 @@ nmap <leader>T <Plug>SendFocusedTestToTmux
 " for rspec.vim (syntax highlighting enhancements for rspec)
 autocmd BufReadPost,BufNewFile *_spec.rb set syntax=rspec
 
-" copy (write) highlighted text to .vimbuffer
-vmap <C-c> y:new ~/.vimbuffer<CR>VGp:x<CR> \| :!cat ~/.vimbuffer \| clip.exe <CR><CR>
-" " paste from buffer
-map <C-v> :r ~/.vimbuffer<CR>
+command! -bang -nargs=* Rg
+  \ call fzf#vim#grep(
+  \   'rg --column --line-number --no-heading --color=always --smart-case '.(<q-args>), 1,
+  \   <bang>0 ? fzf#vim#with_preview('up:40%:hidden')
+  \           : fzf#vim#with_preview('right:50%'),
+  \   <bang>0)
+nnoremap <C-p> :Rg<space>'' -g '**/*'<Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>
